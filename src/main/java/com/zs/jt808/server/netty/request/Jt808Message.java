@@ -7,7 +7,7 @@ import java.util.Date;
 
 
 @Data
-public class Jt808Message {
+public class  Jt808Message {
 
     protected Jt808FixedHeader header;//消息头数据
     protected byte[] msgBodyBytes;  // 消息体字节数组

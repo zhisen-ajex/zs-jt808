@@ -3,17 +3,14 @@ package com.zs.jt808.server.netty.protocol.process;
 import cn.hutool.core.date.DateUtil;
 import com.zs.jt808.server.constants.Jt808Constants;
 import com.zs.jt808.server.constants.Jt808MessageType;
-import com.zs.jt808.server.entity.DataTransmission;
-import com.zs.jt808.server.entity.Driving;
-import com.zs.jt808.server.entity.FaultCode;
-import com.zs.jt808.server.entity.TravelReport;
+import com.zs.jt808.server.entity.*;
 import com.zs.jt808.server.exception.GlobalFallbackException;
 import com.zs.jt808.server.netty.protocol.AbstractProtocolProcess;
 import com.zs.jt808.server.netty.request.Jt808Message;
 import com.zs.jt808.server.service.KafkaService;
 import com.zs.jt808.server.utils.Jt808Utils;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,10 +18,10 @@ import org.springframework.stereotype.Component;
  **/
 @Slf4j
 @Component
-@AllArgsConstructor
 public class DataTransmissionProcess extends AbstractProtocolProcess {
 
-    private final KafkaService kafkaService;
+    @Autowired
+    private KafkaService kafkaService;
 
     @Override
     protected Jt808Message resolve(Jt808Message message) {

@@ -60,7 +60,7 @@ public class Jt808Encoder extends MessageToMessageEncoder<Jt808Message> {
      * @return
      */
     private ByteBuf encodeServerCommontMessage(Channel channel, Jt808Message message) {
-        log.debug("<<< 响应通用 message:{}", message);
+        log.debug("<<< 平台通用应答,上行数据:{}", message);
         //消息体
         byte[] msgBody = ArrayUtil.addAll(Convert.shortToBytes((short) message.getHeader().getFlowId()) // 应答流水号
                 , Convert.shortToBytes((short) message.getHeader().getMessageType().value()) // 应答ID,对应的终端消息的ID
@@ -170,7 +170,7 @@ public class Jt808Encoder extends MessageToMessageEncoder<Jt808Message> {
                 , new byte[]{Convert.intToByte(checkSum)}
                 , new byte[]{Jt808Constants.PKG_DELIMITER} // 0x7e
         );
-        log.debug("<<< 响应终端：{}", HexUtil.encodeHexStr(resBytes, Boolean.FALSE));
+        log.debug("<<< 响应终端，下行数据{}", HexUtil.encodeHexStr(resBytes, Boolean.FALSE));
         ByteBuf buffer = channel.alloc().buffer();
         buffer.writeBytes(resBytes);
         return buffer;

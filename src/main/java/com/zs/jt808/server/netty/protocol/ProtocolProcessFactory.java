@@ -27,6 +27,7 @@ public class ProtocolProcessFactory {
     private final ProtocolProcess responseCommonProcess;
     private final ProtocolProcess responseRegisterProcess;
     private final ProtocolProcess responseTimeProcess;
+    private final ProtocolProcess reportTextProcess;
 
     private final Map<Jt808MessageType, ProtocolProcess> processMap = new EnumMap<>(Jt808MessageType.class);
 
@@ -44,6 +45,8 @@ public class ProtocolProcessFactory {
         processMap.put(Jt808MessageType.REQUEST_TIME_DOWN, responseTimeProcess);
         processMap.put(Jt808MessageType.RESPONSE_COMMON_DOWN, responseCommonProcess);
         processMap.put(Jt808MessageType.REGISTER_DOWN, responseRegisterProcess);
+
+        processMap.put(Jt808MessageType.REPORT_TXT_MSG_UP, reportTextProcess);
     }
 
     public ProtocolProcess getInstance(Jt808MessageType type) {

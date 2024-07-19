@@ -1,0 +1,35 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: jt808-server
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+    time-zone: GMT+3
+logging:
+  config: classpath:logback-spring.xml
+snowflake:
+  workerId: 1
+  datacenterId: 1
+
+
+
+openapi:
+  title: JT808
+  description: demo
+  version: 1.0.0
+  servers:
+    - description: JT808
+      url: http://localhost:${server.port} # local service url
+
+springdoc:
+  api-docs: #is for custom path of the OpenAPI documentation in Json format
+    path: /v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
+    enabled: true
+  swagger-ui: #is for custom path of the Swagger documentation
+    path: /swagger-ui.html
+    enabled: true
+    disable-swagger-default-url: true
+    configUrl: /v3/api-docs/swagger-config
+    url: /v3/api-docs

@@ -1,0 +1,77 @@
+package com.zs.jt808.server.entity;
+
+import cn.hutool.core.util.NumberUtil;
+import com.zs.jt808.server.annotation.Jt808Field;
+import com.zs.jt808.server.annotation.Jt808Math;
+import com.zs.jt808.server.netty.request.Jt808Message;
+import lombok.Data;
+
+import java.util.Date;
+import java.util.List;
+
+
+@Data
+public class LocationInfo extends Jt808Message {
+
+    // byte[0-3] 报警标志(DWord(32))
+    @Jt808Field(index = 0, length = 4)
+    private int warningFlagField;
+
+    // byte[4-7] 状态(DWORD(32))
+    @Jt808Field(index = 4, length = 4)
+    private int statusField;
+
+    // byte[8-11] 纬度(DWORD(32)) 以度位单位的纬度值乘以10的6次方，精确到百万分之一度
+    @Jt808Field(index = 8, length = 4)
+    @Jt808Math(aClass = NumberUtil.class, method = "div", number = 100_0000)
+    private double latitude;
+
+    // byte[12-15] 经度(DWORD(32)) 以度位单位的纬度值乘以10的6次方，精确到百万分之一度
+    @Jt808Field(index = 12, length = 4)
+    @Jt808Math(aClass = NumberUtil.class, method = "div", number = 100_0000)
+    private double longitude;
+
+    // byte[16-17] 高程(WORD(16)) 海拔高度，单位为米（ m）
+    @Jt808Field(index = 16, length = 2)
+    private int altitude;
+
+    // byte[18-19] 速度(WORD) 1/10km/h
+    @Jt808Field(index = 18, length = 2)
+    @Jt808Math(aClass = NumberUtil.class, method = "div", number = 10)
+    private double speed;
+
+    // byte[20-21] 方向(WORD) 0-359，正北为 0，顺时针
+//    @Jt808Field(index = 20,length = 2)
+    @Jt808Field(index = 20, length = 1)
+    private int direction;
+
+    // byte[22-x] 时间(BCD[6]) YY-MM-DD-hh-mm-ss (utc 时间，本标准中之后涉及的时间均采用此时区)
+    @Jt808Field(index = 22, length = 6)
+    private Date time;
+
+    //里程，DWord，1/10km，对应车上的里程表读数
+//    @Jt808Field(index = 30,length = 4)
+//    @Jt808Math(aClass = NumberUtil.class, method = "div")
+    private double mileage;
+
+    //油量，Word，1/10L，对应车上油量表读数
+//    @Jt808Field(index = 36,length = 2)
+//    @Jt808Math(aClass = NumberUtil.class, method = "div")
+    private double oilMass;
+
+    //位置附加信息
+//    @Jt808Field(index = 28,length = -1)
+    private List<LocationExtraInfo> locationExtraInfos;
+
+    public LocationInfo() {
+
+    }
+
+    public LocationInfo(Jt808Message message) {
+        this();
+        this.header = message.getHeader();
+        this.checkSum = message.getCheckSum();
+        this.msgBodyBytes = message.getMsgBodyBytes();
+    }
+
+}

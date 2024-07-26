@@ -27,9 +27,6 @@ import java.nio.charset.Charset;
 public class JT808MessageService {
 
 
-    private static final Mono<Void> NEVER = Mono.never();
-    private static final String OFFLINE_EXCEPTION = "离线的客户端（请检查设备是否注册或者鉴权）";
-    private static final String OFFLINE_RESULT = "离线的客户端（请检查设备是否注册或者鉴权）";
 
 
     @Autowired

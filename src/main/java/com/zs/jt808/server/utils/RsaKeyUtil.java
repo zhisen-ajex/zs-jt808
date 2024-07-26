@@ -21,6 +21,10 @@ public class RsaKeyUtil {
         IoUtil.writeObjects(FileUtil.getOutputStream(privatePath), true, privateKey);
     }
 
+    /**
+     * Currently BSJ devices do not support encryption processing
+     * @return
+     */
     public static RSAPrivateKey getRsaPrivateKey() {
         RSAPrivateKey privateKey = IoUtil.readObj(RsaKeyUtil.class.getClassLoader().getResourceAsStream("keystore/dauth-private.key"));
         return privateKey;

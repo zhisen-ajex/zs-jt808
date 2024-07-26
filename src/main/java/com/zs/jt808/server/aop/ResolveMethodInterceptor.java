@@ -63,7 +63,7 @@ public class ResolveMethodInterceptor implements MethodInterceptor {
                             } else if (typeClass.equals(Date.class)) {
                                 value = Jt808Utils.generateDate(data, index, length);
                             } else {
-                                throw new GlobalFallbackException("不支持的数据类型！" + typeClass);
+                                throw new GlobalFallbackException("Unsupported data type！" + typeClass);
                             }
                             ReflectUtil.setFieldValue(res, field, value);
                         }
@@ -72,7 +72,7 @@ public class ResolveMethodInterceptor implements MethodInterceptor {
                 return res;
             }
         } catch (Exception e) {
-            log.error(">>> 解析失败,header：{}, error:{}", message.getHeader().getMessageType(), e.toString(), e);
+            log.error(">>> Parsing failed,header：{}, error:{}", message.getHeader().getMessageType(), e.toString(), e);
             message.setReplyCode(Jt808Constants.RESP_MSG_ERROR);
         }
         return message;

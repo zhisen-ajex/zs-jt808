@@ -19,6 +19,10 @@ public class SnowflakeUtils {
         staticSnowflakeProperties = this.snowflakeProperties;
     }
 
+    /**
+     * Used to generate a unique identifier for each session connection
+     * @return
+     */
     public static long nextId(){
         return IdUtil.getSnowflake(staticSnowflakeProperties.getWorkerId(), staticSnowflakeProperties.getDatacenterId()).nextId();
     }

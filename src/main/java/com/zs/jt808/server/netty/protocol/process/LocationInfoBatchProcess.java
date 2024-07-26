@@ -1,20 +1,22 @@
 package com.zs.jt808.server.netty.protocol.process;
 
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
 import com.zs.jt808.server.constants.Jt808Constants;
-import com.zs.jt808.server.netty.protocol.AbstractProtocolProcess;
-import com.zs.jt808.server.netty.request.Jt808Message;
 import com.zs.jt808.server.entity.LocationExtraInfo;
 import com.zs.jt808.server.entity.LocationInfo;
 import com.zs.jt808.server.entity.LocationInfoBatch;
+import com.zs.jt808.server.netty.protocol.AbstractProtocolProcess;
+import com.zs.jt808.server.netty.request.Jt808Message;
 import com.zs.jt808.server.service.KafkaService;
 import com.zs.jt808.server.utils.Jt808Utils;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +27,12 @@ import static com.zs.jt808.server.netty.protocol.process.LocationInfoProcess.che
  */
 @Slf4j
 @Component
-@AllArgsConstructor
 public class LocationInfoBatchProcess extends AbstractProtocolProcess {
 
-    private final RedisTemplate redisTemplate;
-
-    private final KafkaService kafkaService;
+    @Autowired
+    private RedisTemplate redisTemplate;
+    @Autowired
+    private KafkaService kafkaService;
 
     @Override
     protected Jt808Message resolve(Jt808Message message) {
@@ -79,9 +81,9 @@ public class LocationInfoBatchProcess extends AbstractProtocolProcess {
 
     public static LocationInfo getLocationInfo(byte[] data, LocationInfo msg) {
         // 1. byte[0-3] 报警标志(DWORD(32))
-        msg.setWarningFlagField(Jt808Utils.parseIntFromBytes(data, 0, 4));
+        msg.setAlarmFlag(Jt808Utils.parseIntFromBytes(data, 0, 4));
         // 2. byte[4-7] 状态(DWORD(32))
-        msg.setStatusField(Jt808Utils.parseIntFromBytes(data, 4, 4));
+        msg.setStatus(Jt808Utils.parseIntFromBytes(data, 4, 4));
         // 3. byte[8-11] 纬度(DWORD(32)) 以度为单位的纬度值乘以10^6，精确到百万分之一度
         msg.setLatitude(NumberUtil.div(Jt808Utils.parseIntFromBytes(data, 8, 4), 100_0000));
         // 4. byte[12-15] 经度(DWORD(32)) 以度为单位的经度值乘以10^6，精确到百万分之一度
@@ -124,6 +126,7 @@ public class LocationInfoBatchProcess extends AbstractProtocolProcess {
         }
 //        msg.setMileage(NumberUtil.div(parseIntFromBytes(data, 30, 4),10));
 //        msg.setOilMass(NumberUtil.div(parseIntFromBytes(data, 36, 2),10));
+        msg.setLocationExtraInfos(locationExtraInfos);
         return msg;
     }
 
@@ -134,6 +137,7 @@ public class LocationInfoBatchProcess extends AbstractProtocolProcess {
         byte[] tmp = new byte[len];
         System.arraycopy(data, tmpLength, tmp, 0, len);
         extraInfo.setBytesValue(tmp);
+       // extraInfo.setAdditionalContent(StrUtil.str(tmp, Charset.forName("GBK")));
         locationExtraInfos.add(extraInfo);
     }
 

@@ -172,4 +172,9 @@ public class Jt808Utils {
         return flowId;
     }
 
+    public static byte[] integerTo1Bytes(int value) {
+        byte[] result = new byte[1];
+        result[0] = (byte) (value & 0xFF);
+        return result;
+    }
 }

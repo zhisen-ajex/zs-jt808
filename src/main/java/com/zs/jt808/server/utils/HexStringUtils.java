@@ -52,9 +52,4 @@ public class HexStringUtils {
     }
 
 
-    public static byte[] integerTo1Bytes(int value) {
-        byte[] result = new byte[1];
-        result[0] = (byte) (value & 0xFF);
-        return result;
-    }
 }

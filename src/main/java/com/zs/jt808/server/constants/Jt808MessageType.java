@@ -6,18 +6,18 @@ package com.zs.jt808.server.constants;
 public enum Jt808MessageType {
 
     //终端通用应答  上    行
-    RESPONSE_COMMON_UP(0x0001)
+    RESPONSE_COMMON_UP(0x0001)  // todo 是只有平台下发指令时才会有吗?
     //平台通用应答  下    行
     , RESPONSE_COMMON_DOWN(0x8001)
 
     //链路心跳
-    , LINK_HEARTBEAT(0x0002)
+    , LINK_HEARTBEAT(0x0002)  //todo 这个有什么用
 
     //终端注册
     , REGISTER_UP(0x0100), REGISTER_DOWN(0x8100)
 
     //终端注销
-    , LOGOUT(0x0003)
+    , LOGOUT(0x0003)  //todo 什么场景下会出现这种
 
     //终端鉴权
     , AUTHENTICATION(0x0102)

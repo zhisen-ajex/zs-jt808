@@ -9,6 +9,7 @@ import com.zs.jt808.server.netty.request.Jt808Message;
 import com.zs.jt808.server.netty.session.SessionStore;
 import com.zs.jt808.server.netty.session.SessionStoreService;
 import com.zs.jt808.server.utils.HexStringUtils;
+import com.zs.jt808.server.utils.Jt808Utils;
 import com.zs.jt808.server.web.request.JT8300Request;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -47,7 +48,7 @@ public class JT808MessageService {
         jt808Message.setHeader(header);
         jt808Message.setReplayType(Jt808MessageType.SEND_TEXT_INFO_DOWN); //Charset.forName("GB2312"
         byte[] bytes = ArrayUtil.addAll(
-                HexStringUtils.integerTo1Bytes(request.getFlag())
+                Jt808Utils.integerTo1Bytes(request.getFlag())
                 , request.getContent().getBytes(Charset.forName("GBK"))
         );
 
